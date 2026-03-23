@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Predictor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; }
+        .card-custom { box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 12px; margin-top: 40px; margin-bottom: 40px; border: none; }
+        .card-header-custom { background: linear-gradient(135deg, #198754, #20c997); color: white; border-radius: 12px 12px 0 0 !important; text-align: center; font-weight: bold; }
+        .btn-predict { border-radius: 8px; font-weight: bold; font-size: 1.1rem; padding: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom py-3">
+                        <h2 class="mb-0">Crop Yield Predictor</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="alert alert-success" role="alert">
+                            <i class="bi bi-info-circle-fill"></i> Enter the agricultural parameters below to predict crop yield.
+                        </div>
+                        <form action="/predict" method="POST" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="year" class="form-label fw-bold">Year:</label>
+                                    <input type="number" class="form-control" id="year" name="year" min="2000" max="2030" value="2024" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="country" class="form-label fw-bold">Country:</label>
+                                    <select class="form-select" id="country" name="country" required>
+                                        <option value="" selected disabled>Select Country</option>
+                                        <option value="India">India</option>
+                                        <option value="China">China</option>
+                                        <option value="USA">USA</option>
+                                        <option value="France">France</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Brazil">Brazil</option>
+                                        <option value="Argentina">Argentina</option>
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="Russia">Russia</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="region" class="form-label fw-bold">Region:</label>
+                                    <select class="form-select" id="region" name="region" required>
+                                        <option value="" selected disabled>Select Region</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="West">West</option>
+                                        <option value="East">East</option>
+                                        <option value="South">South</option>
+                                        <option value="North">North</option>
+                                        <option value="Midwest">Midwest</option>
+                                        <option value="Prairies">Prairies</option>
+                                        <option value="New South Wales">New South Wales</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="British Columbia">British Columbia</option>
+                                        <option value="North Central">North Central</option>
+                                        <option value="North West">North West</option>
+                                        <option value="Northeast">Northeast</option>
+                                        <option value="Northwest">Northwest</option>
+                                        <option value="Northwestern">Northwestern</option>
+                                        <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
+                                        <option value="Ontario">Ontario</option>
+                                        <option value="Pampas">Pampas</option>
+                                        <option value="Patagonia">Patagonia</option>
+                                        <option value="Provence-Alpes-Cote d’Azur">Provence-Alpes-Cote d’Azur</option>
+                                        <option value="Quebec">Quebec</option>
+                                        <option value="Queensland">Queensland</option>
+                                        <option value="Siberian">Siberian</option>
+                                        <option value="South East">South East</option>
+                                        <option value="South West">South West</option>
+                                        <option value="Southeast">Southeast</option>
+                                        <option value="Victoria">Victoria</option>
+                                        <option value="Volga">Volga</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="crop_type" class="form-label fw-bold">Crop Type:</label>
+                                    <select class="form-select" id="crop_type" name="crop_type" required>
+                                        <option value="" selected disabled>Select Crop Type</option>
+                                        <option value="Corn">Corn</option>
+                                        <option value="Wheat">Wheat</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Sugarcane">Sugarcane</option>
+                                        <option value="Coffee">Coffee</option>
+                                        <option value="Fruits">Fruits</option>
+                                        <option value="Soybean">Soybean</option>
+                                        <option value="Cotton">Cotton</option>
+                                        <option value="Barley">Barley</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="avg_temp" class="form-label fw-bold">Average Temperature (°C):</label>
+                                    <input type="number" class="form-control" id="avg_temp" name="avg_temp" step="0.1" value="25.0" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="precipitation" class="form-label fw-bold">Total Precipitation (mm):</label>
+                                    <input type="number" class="form-control" id="precipitation" name="precipitation" min="0" step="0.1" value="1000" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="co2_emissions" class="form-label fw-bold">CO2 Emissions (MT):</label>
+                                    <input type="number" class="form-control" id="co2_emissions" name="co2_emissions" min="0" step="0.01" value="15.0" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="extreme_weather" class="form-label fw-bold">Extreme Weather Events:</label>
+                                    <input type="number" class="form-control" id="extreme_weather" name="extreme_weather" min="0" value="5" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="irrigation_access" class="form-label fw-bold">Irrigation Access (%):</label>
+                                    <input type="number" class="form-control" id="irrigation_access" name="irrigation_access" min="0" max="100" step="0.1" value="70.0" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="pesticide_use" class="form-label fw-bold">Pesticide Use (KG/ha):</label>
+                                    <input type="number" class="form-control" id="pesticide_use" name="pesticide_use" min="0" step="0.01" value="15.0" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fertilizer_use" class="form-label fw-bold">Fertilizer Use (KG/ha):</label>
+                                    <input type="number" class="form-control" id="fertilizer_use" name="fertilizer_use" min="0" step="0.01" value="100.0" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="soil_health" class="form-label fw-bold">Soil Health Index:</label>
+                                    <input type="number" class="form-control" id="soil_health" name="soil_health" min="0" max="100" step="0.1" value="75.0" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="adaptation" class="form-label fw-bold">Adaptation Strategies:</label>
+                                    <select class="form-select" id="adaptation" name="adaptation" required>
+                                        <option value="" selected disabled>Select Strategy</option>
+                                        <option value="Water Management">Water Management</option>
+                                        <option value="Crop Rotation">Crop Rotation</option>
+                                        <option value="Organic Farming">Organic Farming</option>
+                                        <option value="Drought-resistant Crops">Drought-resistant Crops</option>
+                                        <option value="No Adaptation">No Adaptation</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="economic_impact" class="form-label fw-bold">Economic Impact (Million USD):</label>
+                                    <input type="number" class="form-control" id="economic_impact" name="economic_impact" step="0.01" value="500.0" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 btn-predict mt-3">Predict Crop Yield</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap Validation Script -->
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>

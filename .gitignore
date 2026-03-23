@@ -1,0 +1,11 @@
+# Environments
+venv/
+env/
+.env
+
+# Model files
+# Note: DO NOT ignore .pkl files because Render needs the model to run!
+
+# Cache
+__pycache__/
+*.pyc
